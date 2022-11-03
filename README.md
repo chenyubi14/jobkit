@@ -1,7 +1,7 @@
 # Jobkit
-Have you ever felt that it is painful to run job scripts in a cluster? A lot of repetitive works can be done automatically. Jobkit contains a bunch of shell codes to help you run jobs smoothly. You just need to add the commands in .myshrc to your .bashrc or .bash_profile
+Have you ever felt that it is painful to run job scripts in a cluster? A lot of repetitive works can be done automatically. Jobkit contains a bunch of shell codes to help you run jobs smoothly. You just need to add the commands in `.myshrc` to your .bashrc or .bash_profile
 
-Remember to read through the .myshrc file and make necessary changes! You may need to `source .bashrc` to make the functions take effect
+Remember to read through the `.myshrc` file and make necessary changes! You may need to `source .bashrc` to make the functions take effect
 
 Here is a list of useful commands.
 
@@ -11,7 +11,7 @@ Are you sick of typing `squeue -u username`? Define some commands abbreviations.
 ## job management and submission
 The usage of every function is written as comments. Please read my comments carefully.
 
-Define a template for submitting jobs. You can use the same template for every job submission. I offered one job template in the submit.job file
+Define a template for submitting jobs. You can use the same template for every job submission. I offered one job template in the `submit.job` file
 
 When you submit jobs, don't just use `sbatch`! Use the function `run` to store the job number and submission time. 
 
@@ -25,7 +25,7 @@ How about syncing files? Are you tired of writing `scp`? These three functions w
 
 `remote2local` will sync files from a remote computer to a local directory
 
-`local2remote` will sync locat files to a local computer
+`local2remote` will sync local files to a remote computer
 
 `remotemulti` will generate commands for using `remote2local`. It also checks whether the file exists.
 
