@@ -31,3 +31,6 @@ How about syncing files? Are you tired of writing `scp`? These three functions w
 
 ## update files
 Does your cluster clean files every several months? Are you sick of your important files being removed? Use `touchall`!
+
+## sshconfig
+The file sshconfig has two tricks to save typing passwords frequently
