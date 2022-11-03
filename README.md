@@ -1,7 +1,7 @@
 # Jobkit
 Have you ever felt that it is painful to run job scripts in a cluster? A lot of repetitive works can be done automatically. Jobkit contains a bunch of shell codes to help you run jobs smoothly. You just need to add the commands in .myshrc to your .bashrc or .bash_profile
 
-Remember to read through the .myshrc file and make necessary changes!
+Remember to read through the .myshrc file and make necessary changes! You may need to `source .bashrc` to make the functions take effect
 
 Here is a list of useful commands.
 
