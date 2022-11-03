@@ -7,7 +7,8 @@ Here is a list of useful commands.
 # shell commands abbreviation
 use alias to define commands abbreviations. For example, the "q" defined in .myshrc can print your running jobs in queue.
 
-# An entire system for job submissions. The usage of every function is written as comments. Please read my comments carefully.
+# An entire system for job submissions. 
+The usage of every function is written as comments. Please read my comments carefully.
 Define a template for submitting jobs.
 when you submit jobs, don't just use sbatch! use the function "run" to store the job number and submission time. 
 Have you even got confused by what job is running? Use "printjob_direc job_number"! It will bring you to the directory you submitted job_number.
