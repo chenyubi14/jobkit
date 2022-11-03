@@ -34,3 +34,6 @@ Does your cluster clean files every several months? Are you sick of your importa
 
 ## sshconfig
 The file sshconfig has two tricks to save typing passwords frequently
+
+## draw.datafile_template.py
+Use `python draw.datafile_template.py yourdata.txt` to plot a data file
