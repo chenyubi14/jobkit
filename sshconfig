@@ -1,7 +1,7 @@
 Two ssh methods to save your energy
 I highly recommend using the methods in both link to save your time!
 
-(ssh-keygen)[https://www.thegeekstuff.com/2008/11/3-steps-to-perform-ssh-login-without-password-using-ssh-keygen-ssh-copy-id/ ] will save the process of typing login passwords
+[ssh-keygen](https://www.thegeekstuff.com/2008/11/3-steps-to-perform-ssh-login-without-password-using-ssh-keygen-ssh-copy-id/) will save the process of typing login passwords
 
 
 # .ssh/config will save the process of typing passwords when syncing files!
