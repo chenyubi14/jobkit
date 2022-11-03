@@ -17,6 +17,9 @@ when you submit jobs, don't just use sbatch! use the function "run" to store the
 
 Have you ever been confused by what job is running? Use "printjob_direc job_number"! It will bring you to the directory you submitted the job with job_number.
 
+The jobs you submitted are saved in $HOME/jobs.number (should use the "run" function to have jobs.number)
+The jobs you finished are saved in $HOME/finished.jobs.number (should use the submit.job template to have finished.jobs.number)
+
 ## sync files between servers
 How about syncing files? Are you tired of writing scp? These three functions will help you! remote2local, local2remote, remotemulti
 
