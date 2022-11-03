@@ -1,0 +1,9 @@
+# Two methods to save your work in ssh
+# I highly recommend using the methods in both link to save your time!
+
+# ssh-keygen will save the process of typing login passwords
+# https://www.thegeekstuff.com/2008/11/3-steps-to-perform-ssh-login-without-password-using-ssh-keygen-ssh-copy-id/ 
+
+# .ssh/config will save the process of typing passwords when syncing files!
+# Note this method will also save the two-factor authentication!
+# https://hcc.unl.edu/docs/connecting/reusing_ssh_connections_in_linux_or_mac/#:~:text=To%20enable%20connection%2[…]0if%20possible%E2%80%9D%20checkbox 
