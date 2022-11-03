@@ -1,0 +1,155 @@
+
+# shell commands abbreviation
+alias q='squeue -u ${USER} -o "%.10i %.9P %.22j %.8u %.2t %.10M %.5D %S %e"' # print your job queue
+alias cd1="cd .."
+alias cd2="cd ../.."
+alias cd3="cd ../../.."
+alias cd4="cd ../../../.."
+
+
+
+## User specific environment and startup programs
+export SUBMIT=${HOME}/submit.job # job script template for submission
+# you may have many other templetates, of course
+
+
+# submit jobs
+function run() {
+	# usage in terminal: run + mode
+	#  mode types: 
+  #    default (use the standard submit.job template saved as $SUBMIT)
+	# 	 job_script_name in the current working directory
+	# After the job is submitted, the job_number and job_folder will be copied to the $HOME/jobs.number
+	
+	if [ -z $1 ]; then # if $1 does not exist
+		echo 'Please specify a mode like: run default, run job_script_name'
+    exit 0 # return
+  elif [  $1 = default]; then # use the default job script saved as $SUBMIT
+    submitfil=$SUBMIT # by default
+    cp $submitfil $PWD
+	elif [ -f $1  ]; then # use the job_script_name at local directory
+		submitfil=$1
+	else
+		echo 'the arguments not recognized, will use default $SUBMIT'
+		return #exit 0
+  fi  
+	echo 'the job script is ' $submitfil
+  
+	# submit the job
+  sbatch $submitfil > job.number
+	# store job number and job directory, useful for managing jobs below
+  cat job.number
+  echo $PWD >> ${HOME}/jobs.number
+  cat job.number | sed -n '/Submitted/p' >> ${HOME}/jobs.number
+	echo "SUBMITTIME=$(date --iso-8601=ns)" >> ${HOME}/jobs.number
+}
+
+# manage jobs
+function printjob_direc()
+{
+  # usage in terminal: printjob_direc + job_number
+	jobnumber=$1
+	if [ -z $1 ]; then # check whether job_number is given
+		echo 'the job number is not available'
+		return #exit 0
+	fi
+  # check whether the job number is in the current running jobs
+	jdir=$(scontrol show job $1 | grep WorkDir | awk '{split($0,a,"="); print a[2]}')
+	echo -n
+  # If the job is in the current running jobs, it should have a non-zero value. Otherwise, find the job in $HOME/jobs.number. 
+  # Now you can see the benefit of running jobs by the function 'run' above. It will save job.number of every job you submitted in the same file $HOME/jobs.number.
+	if [ -z $jdir ]; then
+		jdir=$(grep ${jobnumber} ${HOME}/jobs.number -B1) # find the job directory in $HOME/jobs.number
+	fi
+	echo $1 is in $jdir
+	if [ -z $2 ]; then
+		echo 'One argument for cd directory. Any another argument to avoid cd dir'
+		jdir=( $jdir )
+		cd ${jdir[0]}
+	fi
+}
+
+
+
+# sync files between servers
+function remote2local {
+        echo 'arguments format: remote_server + local_directory + remote_files_to_sync '
+        echo -e 'remote_server choices: pod stampede cori\n' # those choices have to be defined below
+        remote=$1
+        shift
+        dir=$1
+        shift
+        if [ $remote = pod ];then
+                remote=username@pod-login1.cnsi.ucsb.edu # change username here!
+        elif [ $remote = stampede ]; then
+                remote=username@stampede2.tacc.utexas.edu
+        elif [ $remote = cori ]; then
+                remote=username@cori.nersc.gov
+        fi  
+        echo '	the remote server is ' $remote
+	      echo '	local is ' ${HOSTNAME}
+        echo -e 'remote2local needs all files entered as one file\nYou may use remotemulti to generate the command of using remote2local'
+        scp -r ${remote}:$@ $dir
+}
+function local2remote {
+        echo 'arguments format: remote_server + remote_directory + local_files_to_sync '
+        echo -e 'remote_server choices: pod stampede cori\n'
+        remote=$1
+        shift
+        dir=$1
+        shift
+        if [ $remote = pod ];then
+                remote=username@pod-login1.cnsi.ucsb.edu
+		            echo 'Sync to pod might not work!'
+        elif [ $remote = stampede ]; then
+                remote=username@stampede2.tacc.utexas.edu
+        elif [ $remote = cori ]; then
+                remote=username@cori.nersc.gov
+        fi
+        echo '	the remote server is ' $remote
+	      echo -e '	local is ' ${HOSTNAME} '\n'
+        echo -e 'you can enter multiple file names to sync simultaneously'
+        scp -r $@ ${remote}:$dir
+}
+
+
+export COMNAME=pod # this is an example. You should change it to the actual computer name you defined in local2remote and remote2local
+function remotemulti(){
+        # usage: remotemulti + files_to_sync
+        # When you use remote2local in practive, you may find it annoying to write "remote2local remote_computer_name local_directory remote_file_path/remote_file_name "
+        # this function is to save your work of typing the arguments of remote2local command. Afterall, you must have a terminal in the directory that you want to sync files
+        # This is the intention of this function. Let me use one example. Assume you want to sync files ~/bin/* from stampede to pod.
+        # In one terminal, you are at ~/bin in stampede. In another terminal, you are at ~/bin in pod
+        # In the stampede terminal, type "remotemulti *". You will get an output like "remote2local stampede ./ /home/username/bin/* "
+        # Look, the output is exactly the command you should type in pod! 
+        if [ -z $COMNAME ]; then 
+          echo "you should save the name of current computer above"
+          return
+        fi
+        if [ -z $1 ]; then
+                return #exit 
+        fi  
+        files=( $@ )
+        for syncf in $@; do
+                if [ -f $syncf ] || [ -d $syncf ] ; then
+                        echo "$syncf okay"
+                else
+                        echo "Error!!! $syncf not found..."
+                        return
+                fi  
+        done
+        files="$(IFS=,; echo "${files[*]}")"
+        if [ ${#files[@]} = 1 ]; then
+          echo -e '\nremote2local ' $COMNAME './' ${PWD}/$files
+        else
+	        echo -e '\nremote2local ' $COMNAME './' ${PWD}/\\\{$files\\\}
+        fi
+} 
+
+
+function touchall(){
+  # cluster will clean files every several months
+	# update file time to avoid being cleaned
+  # usage: touchall
+	find . -exec touch {} \;
+}
