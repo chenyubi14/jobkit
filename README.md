@@ -6,28 +6,28 @@ Remember to read through the .myshrc file and make necessary changes!
 Here is a list of useful commands.
 
 ## shell commands abbreviation
-Are you sick of typing "squeue -u username"? Define some commands abbreviations. For example, the "q" defined in .myshrc can print your running jobs in queue.
+Are you sick of typing `squeue -u username`? Define some commands abbreviations. For example, the `q` defined in .myshrc can print your running jobs in queue.
 
 ## job management and submission
 The usage of every function is written as comments. Please read my comments carefully.
 
 Define a template for submitting jobs. You can use the same template for every job submission. I offered one job template in the submit.job file
 
-when you submit jobs, don't just use sbatch! use the function "run" to store the job number and submission time. 
+When you submit jobs, don't just use `sbatch`! Use the function `run` to store the job number and submission time. 
 
-Have you ever been confused by what job is running? Use "printjob_direc job_number"! It will bring you to the directory you submitted the job with job_number.
+Have you ever been confused by what job is running? Use `printjob_direc job_number`! It will bring you to the directory you submitted the job with job_number.
 
-The jobs you submitted are saved in $HOME/jobs.number (should use the "run" function to have jobs.number)
+The jobs you submitted are saved in $HOME/jobs.number (should use the `run` function to have jobs.number)
 The jobs you finished are saved in $HOME/finished.jobs.number (should use the submit.job template to have finished.jobs.number)
 
 ## sync files between servers
-How about syncing files? Are you tired of writing scp? These three functions will help you! remote2local, local2remote, remotemulti
+How about syncing files? Are you tired of writing `scp`? These three functions will help you! `remote2local`, `local2remote`, `remotemulti`
 
-remote2local will sync files from a remote computer to a local directory
+`remote2local` will sync files from a remote computer to a local directory
 
-local2remote will sync locat files to a local computer
+`local2remote` will sync locat files to a local computer
 
-remotemulti will generate commands for using remote2local. It also checks whether the file exists.
+`remotemulti` will generate commands for using `remote2local`. It also checks whether the file exists.
 
 ## update files
-Does your cluster clean files every several months? Are you sick of your important files being removed? Use touchall!
+Does your cluster clean files every several months? Are you sick of your important files being removed? Use `touchall`!
