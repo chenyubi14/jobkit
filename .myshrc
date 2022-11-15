@@ -17,30 +17,30 @@ export SUBMIT=${HOME}/submit.job # job script template for submission
 function run() {
 	# usage in terminal: run + mode
 	#  mode types: 
-  #    default (use the standard submit.job template saved as $SUBMIT)
-	# 	 job_script_name in the current working directory
+  	#    default (use the standard submit.job template saved as $SUBMIT)
+	# 	job_script_name in the current working directory
 	# After the job is submitted, the job_number and job_folder will be copied to the $HOME/jobs.number
 	
 	if [ -z $1 ]; then # if $1 does not exist
 		echo 'Please specify a mode like: run default, run job_script_name'
-    exit 0 # return
-  elif [  $1 = default]; then # use the default job script saved as $SUBMIT
-    submitfil=$SUBMIT # by default
-    cp $submitfil $PWD
+    		exit 0 # return
+  	elif [  $1 = default]; then # use the default job script saved as $SUBMIT
+    		submitfil=$SUBMIT # by default
+    		cp $submitfil $PWD
 	elif [ -f $1  ]; then # use the job_script_name at local directory
 		submitfil=$1
 	else
 		echo 'the arguments not recognized, will use default $SUBMIT'
 		return #exit 0
-  fi  
+  	fi  
 	echo 'the job script is ' $submitfil
   
 	# submit the job
-  sbatch $submitfil > job.number
+  	sbatch $submitfil > job.number
 	# store job number and job directory, useful for managing jobs below
-  cat job.number
-  echo $PWD >> ${HOME}/jobs.number
-  cat job.number | sed -n '/Submitted/p' >> ${HOME}/jobs.number
+  	cat job.number
+  	echo $PWD >> ${HOME}/jobs.number
+  	cat job.number | sed -n '/Submitted/p' >> ${HOME}/jobs.number
 	echo "SUBMITTIME=$(date --iso-8601=ns)" >> ${HOME}/jobs.number
 }
 
@@ -100,14 +100,14 @@ function local2remote {
         shift
         if [ $remote = pod ];then
                 remote=username@pod-login1.cnsi.ucsb.edu
-		            echo 'Sync to pod might not work!'
+		echo 'Sync to pod might not work!'
         elif [ $remote = stampede ]; then
                 remote=username@stampede2.tacc.utexas.edu
         elif [ $remote = cori ]; then
                 remote=username@cori.nersc.gov
         fi
         echo '	the remote server is ' $remote
-	      echo -e '	local is ' ${HOSTNAME} '\n'
+	echo -e '	local is ' ${HOSTNAME} '\n'
         echo -e 'you can enter multiple file names to sync simultaneously'
         scp -r $@ ${remote}:$dir
 }
@@ -116,7 +116,7 @@ function local2remote {
 export COMNAME=pod # this is an example. You should change it to the actual computer name you defined in local2remote and remote2local
 function remotemulti(){
         # usage: remotemulti + files_to_sync
-        # When you use remote2local in practive, you may find it annoying to write "remote2local remote_computer_name local_directory remote_file_path/remote_file_name "
+        # When you use remote2local in practice, you may find it annoying to write "remote2local remote_computer_name local_directory remote_file_path/remote_file_name "
         # this function is to save your work of typing the arguments of remote2local command. Afterall, you must have a terminal in the directory that you want to sync files
         # This is the intention of this function. Let me use one example. Assume you want to sync files ~/bin/* from stampede to pod.
         # In one terminal, you are at ~/bin in stampede. In another terminal, you are at ~/bin in pod
@@ -140,16 +140,19 @@ function remotemulti(){
         done
         files="$(IFS=,; echo "${files[*]}")"
         if [ ${#files[@]} = 1 ]; then
-          echo -e '\nremote2local ' $COMNAME './' ${PWD}/$files
+          	echo -e '\nremote2local ' $COMNAME './' ${PWD}/$files
         else
 	        echo -e '\nremote2local ' $COMNAME './' ${PWD}/\\\{$files\\\}
+		### uncomment below two lines if you have other interactive shell like zsh
+		#address=${USER}@pod-login1.cnsi.ucsb.edu # put your own ip address
+		#echo -e '\nscp -r '${address}':'${PWD}/\{$files\} './' ## For other interactive shell like zsh
         fi
 } 
 
 
 function touchall(){
   # cluster will clean files every several months
-	# update file time to avoid being cleaned
+  # update file time to avoid being cleaned
   # usage: touchall
 	find . -exec touch {} \;
 }
