@@ -39,7 +39,7 @@ You may know that `scp` only sync one file at a time. However, you can also sync
 
 In addition, you might also get bored by specifying the detailed path while using `remote2local`. Thus, here is another function to generate `remote2local` script for you automatically. Assume you want to transfer multiple files from stampede to pod. You can run `remotemulti file1 file2 file3` on stampede, and it will output a job script looking like `remote2local  stampede ./ /stampede_PWD/\{file1,file2,file3\}`. Copy this command, and paste it on a pod terminal window, and the files will sync.
 
-One more comment, copying and pasting `remote2local  stampede ./ /current_path/\{file1,file2,file3\}` seems to work only for `bash`. If you have another interactive login shell like `zsh`, this command may not work, and you can uncomment the related part in `remotemulti` to output another command which directly uses scp by `scp -r username@pod-login1.cnsi.ucsb.edu:{file1,file2,file3} ./`
+One more comment, copying and pasting `remote2local  stampede ./ /current_path/\{file1,file2,file3\}` seems to work only for `bash`. If you have another interactive login shell like `zsh`, this command may not work, and you can uncomment the related part in `remotemulti` to output another command which directly uses scp `scp -r username@pod-login1.cnsi.ucsb.edu:{file1,file2,file3} ./`
 
 ## update files
 Does your cluster clean files every several months? Are you sick of your important files being removed? Use `touchall`!
