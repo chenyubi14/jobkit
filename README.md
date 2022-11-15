@@ -35,9 +35,9 @@ Example usage:
 
 `remote2local pod ./ a_file_on_pod` will sync a file on pod to the local folder './', which is equivalent to `scp -r $username@pod-login1.cnsi.ucsb.edu:a_file_on_pod ./`. 
 
-You may know that `scp` only sync one file at a time. However, you can also sync multiple files simultaneously by one command. As indicated by this website (https://stackoverflow.com/questions/16886179/scp-or-sftp-copy-multiple-files-with-single-command), it is done by `scp -r $username@pod-login1.cnsi.ucsb.edu:{file1,file2,file3,file4} ./`
+You may know that `scp` only sync one file at a time. However, you can also sync multiple files simultaneously by one command. As indicated by this website (https://stackoverflow.com/questions/16886179/scp-or-sftp-copy-multiple-files-with-single-command), it is done by `scp -r $username@pod-login1.cnsi.ucsb.edu:{file1,file2,file3,file4} ./`. With my code, you can type `remote2local  stampede ./ /current_path/\{file1,file2,file3\}`
 
-In addition, you might also get bored by specifying the detailed path when using `remote2local`. Thus, another function to generate `remote2local` script for you automatically. Assume you want to transfer multiple files from stampede to pod. You can type `remotemulti file1 file2 file3` on pod, and it will output a job script looking like `remote2local  stampede ./ /current_path/\{file1,file2,file3\}`. Copy this command, and paste it on a pod terminal window, and the jobs will sync.
+In addition, you might also get bored by specifying the detailed path while using `remote2local`. Thus, here is another function to generate `remote2local` script for you automatically. Assume you want to transfer multiple files from stampede to pod. You can run `remotemulti file1 file2 file3` on stampede, and it will output a job script looking like `remote2local  stampede ./ /current_path/\{file1,file2,file3\}`. Copy this command, and paste it on a pod terminal window, and the files will sync.
 
 One more comment, copying and pasting `remote2local  stampede ./ /current_path/\{file1,file2,file3\}` seems to work only for `bash`. If you have another interactive login shell like `zsh`, this command may not work, and you can uncomment the related part in `remotemulti` to output another command which directly uses scp by `scp -r username@pod-login1.cnsi.ucsb.edu:\{file1,file2,file3\} ./`
 
