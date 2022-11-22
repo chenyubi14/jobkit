@@ -25,7 +25,20 @@ print('Will plot the two columns in .dat or .txt file.')
 
 filename= sys.argv[1] 
 
-data=np.loadtxt(filename) # this one works
+data=np.loadtxt(filename) # this one works for data with several columns.
+# np.loadtxt has other tags like 
+##	dtype=<class 'float'>, data type, could be str or float
+##	comments='#', ignore comments in the data file, could be ['#', '!']
+##	delimiter=None, string used to separate values, default is whitespace, could be commas, dots, etc
+##	skiprows=0, skip the first few rows of the data file, which are usually comments
+##	usecols=None, use specific columns in the data file, will ignore other columns
+# if the above does't work, consider np.genfromtxt
+## np.genfromtxt is a more general function which can handle txt with missing values
+##	invalid_raise=False, can ignore the invalid columns errors, and continue reading the data file
+###		This is useful when the data file has a mixed number of columns, and 
+###		like 3-column gives one type of data and 11-column gives another type.
+###		You can use "skip_header=1, invalid_raise=False" combined to achieve the automatic reading of different columns
+###		It will assume the number of columns is same as the first row it encounters
 
 x=data[:,0]
 y=data[:,1]
