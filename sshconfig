@@ -7,7 +7,7 @@ Check these websites
 (https://support.atlassian.com/bitbucket-cloud/docs/set-up-personal-ssh-keys-on-macos/)
 
 .ssh/config will save the process of typing passwords when syncing files!
-# Note this method will also save thetwo-factor authentication!
+Note that this method will also save two-factor authentication!
 Check this website 
 (https://hcc.unl.edu/docs/connecting/reusing_ssh_connections_in_linux_or_mac/) 
 
